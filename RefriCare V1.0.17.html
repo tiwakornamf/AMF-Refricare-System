@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RefriCare v17 - Professional</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Kanit', sans-serif; background: #f8fafc; margin: 0; padding: 0; }
+        .logo-text { background: linear-gradient(135deg, #1e40af, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; }
+        .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.5); }
+        .animate-up { animation: slideUp 0.5s ease-out forwards; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .tab-active { color: #2563eb; border-bottom: 2px solid #2563eb; }
+    </style>
+</head>
+<body>
+
+    <div id="app" class="min-h-screen">
+        <!-- [1. หน้าเลือกโหมด/หน้าแรก] -->
+        <div id="selectionPage" class="min-h-screen flex items-center justify-center p-6 bg-slate-50">
+            <div class="max-w-md w-full text-center animate-up">
+                <div class="mb-8">
+                    <h1 class="text-5xl italic logo-text tracking-tighter mb-2">REFRICARE</h1>
+                    <p class="text-[10px] tracking-[0.4em] text-slate-400 font-bold uppercase">Smart Maintenance System</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-[2.5rem] shadow-2xl shadow-blue-500/10 border border-slate-100">
+                    <p class="text-slate-500 mb-8 text-sm">กรุณาเลือกรูปแบบการเข้าใช้งาน</p>
+                    
+                    <div class="space-y-4">
+                        <!-- ปุ่มสำหรับช่างทั่วไป (จำลอง) -->
+                        <button onclick="alert('ระบบสำหรับช่างทั่วไป กำลังอยู่ระหว่างการปรับปรุง')" class="w-full py-4 rounded-2xl border-2 border-slate-100 text-slate-600 font-bold flex items-center justify-between px-6 hover:bg-slate-50 transition-all">
+                            <span>ช่างเทคนิคทั่วไป</span>
+                            <i class="fa-solid fa-wrench"></i>
+                        </button>
+
+                        <!-- ปุ่มสำหรับ SUPER ADMIN (เป้าหมายหลัก) -->
+                        <button onclick="showLogin()" class="w-full py-4 rounded-2xl bg-blue-600 text-white font-bold flex items-center justify-between px-6 hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all scale-[1.02]">
+                            <span>SUPER ADMIN LOGIN</span>
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <p class="mt-10 text-[10px] text-slate-300 font-bold uppercase tracking-widest">© 2024 TIWAKORNAMF | V.17 GITHUB READY</p>
+            </div>
+        </div>
+
+        <!-- [2. หน้า LOGIN (ซ่อนไว้ก่อน)] -->
+        <div id="loginPage" class="hidden min-h-screen flex items-center justify-center p-6 bg-blue-50">
+            <div class="max-w-sm w-full bg-white rounded-[2.5rem] shadow-2xl p-10 relative overflow-hidden animate-up">
+                <div class="absolute top-0 left-0 w-full h-2 bg-blue-600"></div>
+                
+                <button onclick="goBack()" class="mb-6 text-slate-400 hover:text-blue-600 transition-all text-sm font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-arrow-left"></i> ย้อนกลับ
+                </button>
+
+                <h2 class="text-2xl font-bold text-slate-800 mb-2">ยืนยันตัวตน</h2>
+                <p class="text-xs text-slate-400 mb-8 uppercase tracking-widest font-bold">เข้าถึงระดับ Super Admin</p>
+
+                <div id="alertBox" class="hidden mb-6 p-4 rounded-2xl text-xs font-bold text-center border"></div>
+
+                <form id="loginForm" class="space-y-5">
+                    <div>
+                        <input type="text" id="username" placeholder="Admin ID" required 
+                            class="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-blue-500 outline-none font-bold text-slate-700">
+                    </div>
+                    <div>
+                        <input type="password" id="password" placeholder="Password" required 
+                            class="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-blue-500 outline-none font-bold text-slate-700">
+                    </div>
+                    <button type="submit" class="w-full bg-slate-900 text-white py-5 rounded-2xl font-black tracking-widest hover:bg-blue-600 transition-all shadow-xl">
+                        UNLOCK SYSTEM
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- [3. หน้า DASHBOARD (ซ่อนไว้ก่อน)] -->
+        <div id="dashboardPage" class="hidden min-h-screen bg-slate-50">
+            <!-- Top Nav -->
+            <nav class="bg-white border-b border-slate-100 px-6 py-4 flex justify-between items-center sticky top-0 z-50">
+                <h3 class="italic logo-text text-xl">REFRICARE</h3>
+                <button onclick="location.reload()" class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-red-50 hover:text-red-600 transition-all">
+                    <i class="fa-solid fa-power-off"></i>
+                </button>
+            </nav>
+
+            <main class="p-6 max-w-6xl mx-auto">
+                <div class="mb-8">
+                    <h1 class="text-2xl font-bold text-slate-800">แผงควบคุมหลัก</h1>
+                    <p class="text-sm text-slate-400 font-medium">ระดับการเข้าถึง: <span class="text-blue-600 font-bold uppercase">Super Admin</span></p>
+                </div>
+
+                <!-- Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-white p-6 rounded-3xl border border-slate-100">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Users</p>
+                        <p class="text-2xl font-black text-slate-800">1.2K</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl border border-slate-100">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Server</p>
+                        <p class="text-2xl font-black text-green-500">99%</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl border border-slate-100">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Reports</p>
+                        <p class="text-2xl font-black text-slate-800">45</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl border border-slate-100">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Alerts</p>
+                        <p class="text-2xl font-black text-red-500">0</p>
+                    </div>
+                </div>
+
+                <!-- Admin Tools -->
+                <div class="bg-white rounded-[2rem] border border-slate-100 p-8 shadow-sm">
+                    <h4 class="font-bold text-slate-800 mb-6 flex items-center gap-2">
+                        <i class="fa-solid fa-users-gear text-blue-600"></i>
+                        การจัดการข้อมูลระบบ
+                    </h4>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl">
+                            <div>
+                                <p class="text-sm font-bold">รายชื่อช่างเทคนิคทั้งหมด</p>
+                                <p class="text-[10px] text-slate-400">แก้ไข ลบ หรือเพิ่มสิทธิ์การใช้งาน</p>
+                            </div>
+                            <button class="bg-white px-4 py-2 rounded-xl text-[10px] font-bold border border-slate-200 hover:border-blue-500 transition-all">จัดการ</button>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl">
+                            <div>
+                                <p class="text-sm font-bold">ข้อมูลการสำรองไฟฟ้า (UPS)</p>
+                                <p class="text-[10px] text-slate-400">ประวัติการทำงานย้อนหลัง 30 วัน</p>
+                            </div>
+                            <button class="bg-white px-4 py-2 rounded-xl text-[10px] font-bold border border-slate-200 hover:border-blue-500 transition-all">ดูรายงาน</button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        const selectionPage = document.getElementById('selectionPage');
+        const loginPage = document.getElementById('loginPage');
+        const dashboardPage = document.getElementById('dashboardPage');
+        const alertBox = document.getElementById('alertBox');
+
+        // ข้อมูล Login (คุณเปลี่ยนได้ที่นี่)
+        const ADMIN_CRED = { user: "admin", pass: "1234" };
+
+        function showLogin() {
+            selectionPage.classList.add('hidden');
+            loginPage.classList.remove('hidden');
+            document.getElementById('username').focus();
+        }
+
+        function goBack() {
+            loginPage.classList.add('hidden');
+            selectionPage.classList.remove('hidden');
+        }
+
+        function showAlert(msg, type) {
+            alertBox.innerText = msg;
+            alertBox.className = `mb-6 p-4 rounded-2xl text-xs font-bold text-center border animate-up ${
+                type === 'error' ? 'bg-red-50 text-red-600 border-red-100' : 'bg-green-50 text-green-600 border-green-100'
+            }`;
+            alertBox.classList.remove('hidden');
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const u = document.getElementById('username').value;
+            const p = document.getElementById('password').value;
+
+            if (u === ADMIN_CRED.user && p === ADMIN_CRED.pass) {
+                showAlert('ยืนยันตัวตนสำเร็จ กำลังเข้าสู่ระบบ...', 'success');
+                setTimeout(() => {
+                    loginPage.classList.add('hidden');
+                    dashboardPage.classList.remove('hidden');
+                }, 1000);
+            } else {
+                showAlert('Admin ID หรือ Password ไม่ถูกต้อง', 'error');
+                document.getElementById('password').value = '';
+            }
+        });
+    </script>
+</body>
+</html>
